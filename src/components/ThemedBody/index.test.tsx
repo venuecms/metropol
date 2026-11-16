@@ -122,7 +122,36 @@ describe("ThemedBody", () => {
   it("sets the theme font on the body", async () => {
     const html = await renderWithConfig({ themeId: "space" });
 
-    expect(html).toContain('data-href="venue-theme-font"');
+    expect(html).toMatch(/data-href="[^"]*venue-theme-font/);
     expect(html).toContain("body { font-family:");
+  });
+
+  // On by default: a site that never saved the setting has no value for it.
+  it("tints images when the site has not set the duotone at all", async () => {
+    const html = await renderWithConfig({ themeId: "space" });
+
+    expect(html).toContain("venue-image-duotone");
+  });
+
+  it("leaves images alone when the duotone is switched off", async () => {
+    const html = await renderWithConfig({
+      themeId: "space",
+      imageDuotone: false,
+    });
+
+    expect(html).not.toContain("venue-image-duotone");
+  });
+
+  it("tints images in the primary color when the duotone is on", async () => {
+    const html = await renderWithConfig({
+      themeId: "space",
+      imageDuotone: true,
+    });
+
+    // React merges same-precedence stylesheets into one tag on the server, so
+    // the name sits in a shared data-href.
+    expect(html).toMatch(/data-href="[^"]*venue-image-duotone/);
+    expect(html).toContain("background: hsla(var(--primary))");
+    expect(html).toContain("mix-blend-mode: screen");
   });
 });

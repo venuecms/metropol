@@ -84,6 +84,12 @@
       "description": "Removes the opacity overlay",
       "title": "Remove Hero Opacity Overlay"
     },
+    "imageDuotone": {
+      "type": "boolean",
+      "default": true,
+      "description": "Tints the images in event, product and artist listings in your primary color: shadows take the color, highlights stay white. Individual pages keep their images in full color. On unless switched off.",
+      "title": "Duotone Listing Images"
+    },
     "colorBackground": {
       "type": "string",
       "format": "color",

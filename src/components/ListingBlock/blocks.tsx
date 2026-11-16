@@ -206,7 +206,7 @@ export const ProfileListingBlock = ({
     >
       <TwoSubColumnLayout className="py-4">
         {records.map((profile) => (
-          <ProfileCompact key={profile.slug} profile={profile} />
+          <ProfileCompact key={profile.slug} profile={profile} inListing />
         ))}
       </TwoSubColumnLayout>
     </PaginatedListing>

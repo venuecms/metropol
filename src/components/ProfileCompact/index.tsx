@@ -14,7 +14,18 @@ import { VenueImage } from "@/components/VenueImage";
 // blocks would let a profile listing nest inside its own results.
 import { renderedStyles } from "../utils/styles";
 
-export const ProfileCompact = ({ profile }: { profile: VenueProfile }) => {
+export const ProfileCompact = ({
+  profile,
+  inListing = false,
+}: {
+  profile: VenueProfile;
+  /**
+   * Set where this card is one of a list of artists, so its image takes the
+   * site's listing filter. Left off where it names a record's own artists, on
+   * an event, page or product, which show their images in full color.
+   */
+  inListing?: boolean;
+}) => {
   const locale = useLocale();
 
   const { content } = getLocalizedContent(profile?.localizedContent, locale);
@@ -23,7 +34,7 @@ export const ProfileCompact = ({ profile }: { profile: VenueProfile }) => {
     <div className="flex flex-col gap-6">
       <div>
         <Link href={`/artists/${profile.slug}`}>
-          <VenueImage image={profile.image} aspect="video" />
+          <VenueImage image={profile.image} aspect="video" filter={inListing} />
         </Link>
       </div>
       <div className="text-secondary hover:brightness-125">

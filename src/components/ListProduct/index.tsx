@@ -30,7 +30,7 @@ export const ListProduct = ({
     >
       <div className="w-full pb-3 sm:w-auto sm:max-w-full">
         <Link href={`/shop/${product.slug}`}>
-          <VenueImage image={product.image} aspect="square" />
+          <VenueImage image={product.image} aspect="square" filter />
         </Link>
       </div>
       <div className="flex flex-col">
