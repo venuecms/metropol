@@ -11,7 +11,7 @@ import { connection } from "next/server";
 import { Link } from "@/lib/i18n";
 
 import { EventsGrid } from "@/components/EventList";
-import { contentComponents } from "@/components/ListingBlock";
+import { contentComponents, contentHandlers } from "@/components/ListingBlock";
 import { TranslatedText } from "@/components/TranslatedText";
 import { FullWidthLayout } from "@/components/layout";
 
@@ -75,6 +75,7 @@ export async function EventsContent({
             className="flex max-w-2xl flex-col gap-6"
             content={siteContent}
             contentStyles={contentComponents}
+            components={contentHandlers}
             searchParams={resolvedSearchParams}
           />
         </FullWidthLayout>

@@ -1,4 +1,5 @@
 import {
+  type NodeHandlers,
   type Page,
   VenueContent,
   getLocalizedContent,
@@ -7,8 +8,9 @@ import {
 } from "@venuecms/sdk-next";
 import { getLocale } from "next-intl/server";
 
+import { InvertedEmailListSignupBlock } from "../EmailSignup";
 import { FullWidthLayout } from "../layout";
-import { hasRenderableContent, splitAtHeadings } from "../utils/pageContent";
+import { hasRenderableContent } from "../utils/pageContent";
 // Prose styling only: footer content is an address or opening hours, not a
 // place for listing blocks.
 import { renderedStyles } from "../utils/styles";
@@ -18,8 +20,7 @@ import { renderedStyles } from "../utils/styles";
  * scheme: primary text becomes the page background, and secondary text the
  * same at reduced opacity, since the themes define no inverted secondary. Set
  * a step smaller than page text, at text-xs. Headings take the primary color
- * here, where the page sets them secondary, so each column's label reads at
- * full strength.
+ * here, where the page sets them secondary, so they read at full strength.
  */
 const footerStyles = Object.fromEntries(
   Object.entries(renderedStyles).map(([node, classes]) => [
@@ -33,6 +34,14 @@ const footerStyles = Object.fromEntries(
       .replace(/\btext-sm\b/g, "text-xs"),
   ]),
 ) as typeof renderedStyles;
+
+/**
+ * The blocks the footer draws beyond prose: a mailing-list signup, in the
+ * footer's inverted colors so it doesn't vanish into the fill.
+ */
+const footerHandlers: NodeHandlers = {
+  emailListSignup: InvertedEmailListSignupBlock,
+};
 
 /** Pages carrying this tag lend their content to the footer. */
 const FOOTER_TAG = "footer";
@@ -95,20 +104,21 @@ export const Footer = async () => {
     // body's gutters, and the clip trims it vertically; unlike a 100vw width,
     // that can't overflow the page sideways when a scrollbar takes up room.
     <footer className="mt-auto bg-primary text-xs text-background shadow-[0_0_0_100vmax_hsla(var(--primary))] [clip-path:inset(0_-100vmax)]">
-      <FullWidthLayout>
-        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-3">
-          {/* A column per heading, across every tagged page, so "Address"
-              and "Contact" sit side by side rather than stacked. */}
-          {footerPages.flatMap(({ id, content }) =>
-            splitAtHeadings(content).map((section, index) => (
-              <VenueContent
-                key={`${id}-${index}`}
-                className="flex flex-col gap-3"
-                content={section}
-                contentStyles={footerStyles}
-              />
-            )),
-          )}
+      {/* Equal padding above and below, in place of the layout's deeper bottom
+          for a page section: the footer is a band, so it sits centered in it. */}
+      <FullWidthLayout className="py-12 lg:py-12">
+        {/* A column per tagged page; the last spans two in the four-column
+            grid, room for a wider block like the signup form. */}
+        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4 lg:[&>*:last-child]:col-span-2">
+          {footerPages.map(({ id, content }) => (
+            <VenueContent
+              key={id}
+              className="flex flex-col gap-3"
+              content={content}
+              contentStyles={footerStyles}
+              components={footerHandlers}
+            />
+          ))}
         </div>
       </FullWidthLayout>
     </footer>
