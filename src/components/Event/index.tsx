@@ -65,6 +65,7 @@ export const Event = ({
                   end: event.endDate,
                   withTime: event.hasTime,
                   timeZone: site.timeZone!,
+                  locale,
                 })}
               </div>
               <div>{content.title}</div>

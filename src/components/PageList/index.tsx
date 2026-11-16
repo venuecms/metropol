@@ -54,6 +54,7 @@ export const ListPage = ({
           withTime: false,
           timeZone: site.timeZone ?? undefined,
           template: "d MMMM yyyy",
+          locale,
         })
       : null;
 
