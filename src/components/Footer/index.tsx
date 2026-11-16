@@ -10,6 +10,7 @@ import { getLocale } from "next-intl/server";
 
 import { InvertedEmailListSignupBlock } from "../EmailSignup";
 import { FullWidthLayout } from "../layout";
+import { proseHandlers } from "../utils/handlers";
 import { hasRenderableContent } from "../utils/pageContent";
 // Prose styling only: footer content is an address or opening hours, not a
 // place for listing blocks.
@@ -40,6 +41,7 @@ const footerStyles = Object.fromEntries(
  * footer's inverted colors so it doesn't vanish into the fill.
  */
 const footerHandlers: NodeHandlers = {
+  ...proseHandlers,
   emailListSignup: InvertedEmailListSignupBlock,
 };
 

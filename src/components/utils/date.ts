@@ -129,3 +129,28 @@ export const formatDateRange = ({
   );
   return `${startLabel} — ${endLabel}`;
 };
+
+/**
+ * A record's time of day alone, in the venue's zone, written the way the
+ * language writes a time after a date: `8pm` / `7.30pm` in English, `20:00`
+ * in Slovak. For the event page's start and end times.
+ */
+export const formatTime = ({
+  date,
+  timeZone,
+  locale,
+}: {
+  date: string;
+  timeZone?: string;
+  locale?: string;
+}) => {
+  const dateLocale = dateLocaleFor(locale);
+  // The time pattern each language appends after a date, minus its separator.
+  const pattern = dateLocale.time.replace(/^\s*•\s*/, "");
+
+  return dateLocale.clean(
+    format(new TZDate(date, timeZone), pattern, {
+      locale: dateLocale.dateFnsLocale,
+    }),
+  );
+};

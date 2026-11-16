@@ -12,7 +12,10 @@
     "archive": "Archív",
     "cancelled": "Zrušené",
     "no_events_found": "Nenašli sa žiadne podujatia",
-    "load_error": "Podujatia sa nepodarilo načítať. Skúste obnoviť stránku."
+    "load_error": "Podujatia sa nepodarilo načítať. Skúste obnoviť stránku.",
+    "starts": "Začiatok",
+    "ends": "Koniec",
+    "map": "mapa"
   },
   "shop": {
     "shop": "Obchod",
@@ -27,7 +30,8 @@
     "no_profiles_found": "Nenašli sa žiadni umelci"
   },
   "tickets": {
-    "free": "zadarmo"
+    "free": "zadarmo",
+    "get_tickets": "Kúpiť vstupenky"
   },
   "news": {
     "news": "Novinky",

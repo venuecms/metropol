@@ -12,7 +12,10 @@
     "archive": "Archive",
     "cancelled": "Cancelled",
     "no_events_found": "No events found",
-    "load_error": "Unable to load events. Please try refreshing the page."
+    "load_error": "Unable to load events. Please try refreshing the page.",
+    "starts": "Starts",
+    "ends": "Ends",
+    "map": "map"
   },
   "shop": {
     "shop": "Shop",
@@ -27,7 +30,8 @@
     "no_profiles_found": "No artists found"
   },
   "tickets": {
-    "free": "free"
+    "free": "free",
+    "get_tickets": "Get tickets"
   },
   "news": {
     "news": "News",

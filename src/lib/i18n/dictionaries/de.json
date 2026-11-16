@@ -12,7 +12,10 @@
     "archive": "Archiv",
     "cancelled": "Abgesagt",
     "no_events_found": "Keine Veranstaltungen gefunden",
-    "load_error": "Veranstaltungen konnten nicht geladen werden. Bitte laden Sie die Seite neu."
+    "load_error": "Veranstaltungen konnten nicht geladen werden. Bitte laden Sie die Seite neu.",
+    "starts": "Beginn",
+    "ends": "Ende",
+    "map": "Karte"
   },
   "shop": {
     "shop": "Shop",
@@ -27,7 +30,8 @@
     "no_profiles_found": "Keine Künstler gefunden"
   },
   "tickets": {
-    "free": "kostenlos"
+    "free": "kostenlos",
+    "get_tickets": "Tickets kaufen"
   },
   "news": {
     "news": "Neuigkeiten",

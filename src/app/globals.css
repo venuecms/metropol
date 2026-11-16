@@ -256,3 +256,20 @@ html.darkGreyCM {
   --nav: 193, 50%, 85%, 1;
   --overlay: 280, 5%, 12%, 0.8;
 }
+
+/* Text and heading case (e.g. paragraphs in capitals) are site settings, not
+   rules here: see buildTextCaseCss in ThemedBody. */
+
+@layer base {
+  /* Quotes, from the editor's JSON (see proseHandlers) and from markdown
+     alike. The rule takes the text's own color, so a quote reads the same on
+     the page and in the footer's inverted colors. Its paragraphs are spaced
+     as the content around them is. */
+  blockquote {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    border-left: 2px solid currentColor;
+    padding-left: 1em;
+  }
+}

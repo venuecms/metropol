@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { formatDate, formatDateRange } from "./date";
+import { formatDate, formatDateRange, formatTime } from "./date";
 
 const timeZone = "Europe/Bratislava";
 
@@ -80,5 +80,26 @@ describe("formatDateRange", () => {
         timeZone,
       }),
     ).toBe("16—23 November 2026");
+  });
+});
+
+describe("formatTime", () => {
+  it("writes an English time the way the date line does", () => {
+    expect(formatTime({ date: "2026-11-16T20:00:00+01:00", timeZone })).toBe(
+      "8pm",
+    );
+    expect(formatTime({ date: "2026-11-16T19:30:00+01:00", timeZone })).toBe(
+      "7.30pm",
+    );
+  });
+
+  it("writes a Slovak time on the 24-hour clock", () => {
+    expect(
+      formatTime({
+        date: "2026-11-16T20:00:00+01:00",
+        timeZone,
+        locale: "sk",
+      }),
+    ).toBe("20:00");
   });
 });

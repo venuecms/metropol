@@ -17,6 +17,7 @@ import type {
 } from "@venuecms/sdk-next";
 
 import { EmailListSignupBlock } from "@/components/EmailSignup";
+import { proseHandlers } from "@/components/utils/handlers";
 import { renderedStyles } from "@/components/utils/styles";
 
 import {
@@ -65,5 +66,6 @@ export const eventListPageComponents: ContentEntries & AllListingComponents = {
  * renders the same blocks everywhere.
  */
 export const contentHandlers: NodeHandlers = {
+  ...proseHandlers,
   emailListSignup: EmailListSignupBlock,
 };

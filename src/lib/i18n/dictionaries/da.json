@@ -12,7 +12,10 @@
     "archive": "Arkiv",
     "cancelled": "Aflyst",
     "no_events_found": "Ingen begivenheder fundet",
-    "load_error": "Begivenhederne kunne ikke indlæses. Prøv at opdatere siden."
+    "load_error": "Begivenhederne kunne ikke indlæses. Prøv at opdatere siden.",
+    "starts": "Starter",
+    "ends": "Slutter",
+    "map": "kort"
   },
   "shop": {
     "shop": "Butik",
@@ -27,7 +30,8 @@
     "no_profiles_found": "Ingen kunstnere fundet"
   },
   "tickets": {
-    "free": "gratis"
+    "free": "gratis",
+    "get_tickets": "Køb billetter"
   },
   "news": {
     "news": "Nyheder",
