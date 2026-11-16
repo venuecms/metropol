@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { connection } from "next/server";
 
 import { EventsList, ListEvent } from "@/components/EventList";
+import { SubPages } from "@/components/Page/SubPages";
 import { ColumnLeft, ColumnRight, TwoColumnLayout } from "@/components/layout";
 
 export async function EventsListContent({ locale }: { locale: string }) {
@@ -41,6 +42,11 @@ export async function EventsListContent({ locale }: { locale: string }) {
         ) : (
           t("no_events_found")
         )}
+        {/* As on a page typed as an event listing, which this one usually
+            is: the list stands alone, without its sub-pages stacked under it. */}
+        {page && page.type !== "EVENTLIST" ? (
+          <SubPages parentId={page.id} />
+        ) : null}
       </ColumnRight>
     </TwoColumnLayout>
   );

@@ -5,20 +5,24 @@ import { MenuIcon, SearchIcon, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ReactNode, useState } from "react";
 
+import { Link } from "@/lib/i18n";
+
+import type { NavItem } from "./items";
+
 export const NavMenuMobile = ({
   logo,
-  children,
+  items,
   footer,
 }: {
   logo: ReactNode;
-  children: ReactNode;
+  items: NavItem[];
   footer?: ReactNode;
 }) => {
   const t = useTranslations("menu");
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="flex w-auto items-center justify-between sm:hidden">
+    <nav className="flex w-auto items-center justify-between lg:hidden">
       <div className="flex gap-8">
         {/* <SearchIcon className="size-6" /> */}
         <Dialog.Root open={open} onOpenChange={setOpen}>
@@ -46,7 +50,26 @@ export const NavMenuMobile = ({
                     className="flex flex-col gap-8 text-sm text-nav"
                     onClick={() => setOpen(false)}
                   >
-                    {children}
+                    {items.map((item) => (
+                      <li key={item.id} className="flex flex-col gap-6">
+                        <Link href={item.href} target={item.target}>
+                          {item.title}
+                        </Link>
+                        {/* Laid out in full: a full-screen menu has room, and
+                            a tap-to-open level would be one more step. */}
+                        {item.children.length ? (
+                          <ul className="flex flex-col gap-6 pl-4 opacity-50">
+                            {item.children.map((child) => (
+                              <li key={child.id}>
+                                <Link href={child.href} target={child.target}>
+                                  {child.title}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        ) : null}
+                      </li>
+                    ))}
                   </ol>
                   <footer>{footer}</footer>
                 </div>

@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { connection } from "next/server";
 
 import { ListProduct } from "@/components/ListProduct";
+import { SubPages } from "@/components/Page/SubPages";
 import { Pagination } from "@/components/Pagination";
 
 const ITEMS_PER_PAGE = 50;
@@ -71,6 +72,14 @@ export async function ProductsListContent({
           currentPage={currentPage}
           totalPages={totalPages - 1}
           baseUrl={`/shop`}
+        />
+      ) : null}
+      {page ? (
+        <SubPages
+          parentId={page.id}
+          frame={(sections) => (
+            <div className="flex flex-col gap-12 pt-20">{sections}</div>
+          )}
         />
       ) : null}
     </section>

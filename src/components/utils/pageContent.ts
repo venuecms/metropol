@@ -28,3 +28,50 @@ export const hasRenderableContent = (content?: LocalizedContent): boolean => {
     })
   );
 };
+
+/**
+ * A body split into sections, each starting at a heading — so a layout can set
+ * them side by side. Anything before the first heading is a section of its own.
+ *
+ * Splits `contentJSON` when present, since that is what VenueContent renders;
+ * otherwise falls back to splitting the markdown at its heading lines. Each
+ * section keeps the rest of the record, so it renders like the whole would.
+ */
+export const splitAtHeadings = (
+  content: LocalizedContent,
+): LocalizedContent[] => {
+  const doc = content.contentJSON as
+    | { content?: Array<{ type?: string }> }
+    | null
+    | undefined;
+
+  if (doc && Array.isArray(doc.content)) {
+    const sections = doc.content.reduce<Array<typeof doc.content>>(
+      (sections, node) => {
+        if (node?.type === "heading" || !sections.length) {
+          sections.push([]);
+        }
+        sections[sections.length - 1].push(node);
+        return sections;
+      },
+      [],
+    );
+
+    return sections.map((nodes) => ({
+      ...content,
+      contentJSON: {
+        ...doc,
+        content: nodes,
+      } as LocalizedContent["contentJSON"],
+    }));
+  }
+
+  if (content.content?.trim()) {
+    return content.content
+      .split(/\n(?=#{1,6}\s)/)
+      .filter((section) => section.trim())
+      .map((section) => ({ ...content, content: section }));
+  }
+
+  return [];
+};

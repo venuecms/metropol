@@ -19,6 +19,7 @@ import {
   TwoColumnLayout,
   TwoSubColumnLayout,
 } from "../layout";
+import { SubPages } from "./SubPages";
 
 export const Page = ({
   page,
@@ -66,6 +67,11 @@ export const Page = ({
             <ProfileCompact key={profile.slug} profile={profile} />
           ))}
         </TwoSubColumnLayout>
+        <SubPages
+          parentId={page.id}
+          pages={pages}
+          searchParams={searchParams}
+        />
       </ColumnRight>
     </TwoColumnLayout>
   );

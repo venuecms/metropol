@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { connection } from "next/server";
 
+import { SubPages } from "@/components/Page/SubPages";
 import { PaginationLinks } from "@/components/Pagination";
 import { ProfileCompact } from "@/components/ProfileCompact";
 import {
@@ -71,6 +72,7 @@ export async function ProfilesListContent({
           }
           nextHref={hasNext ? `/artists?page=${currentPage + 1}` : null}
         />
+        {page ? <SubPages parentId={page.id} /> : null}
       </ColumnRight>
     </TwoColumnLayout>
   );
