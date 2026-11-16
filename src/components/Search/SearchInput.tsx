@@ -24,12 +24,14 @@ export const SearchInput = ({ className }: { className?: string }) => {
   return (
     <div
       className={cn(
-        "flex h-6 justify-end",
+        // Sized in em off text-sm, so the icons and field grow with the fluid
+        // type scale; Lucide strokes scale with the icon, so weight follows.
+        "flex h-[1.5em] justify-end text-sm",
         className,
         isActive && "absolute left-0 w-full gap-4",
       )}
     >
-      <SearchIcon className="size-6" onClick={() => setActive(true)} />
+      <SearchIcon className="size-[1.5em]" onClick={() => setActive(true)} />
       <div
         className={cn(
           "grid grid-cols-[1fr,auto] items-center gap-4 overflow-hidden transition-[width] duration-300 ease-in-out",
@@ -44,8 +46,9 @@ export const SearchInput = ({ className }: { className?: string }) => {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           ref={inputRef}
+          className="h-[1.5em]"
         />
-        <X onClick={reset} className="size-5" />
+        <X onClick={reset} className="size-[1.25em]" />
       </div>
     </div>
   );

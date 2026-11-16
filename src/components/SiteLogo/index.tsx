@@ -30,7 +30,7 @@ export const SiteLogo = ({
   return headerImage ? (
     <Link href="/">{headerImage}</Link>
   ) : (
-    <h1 className={cn("text-nav", className)}>
+    <h1 className={cn("text-sm text-nav", className)}>
       <Link href="/">{name}</Link>
     </h1>
   );

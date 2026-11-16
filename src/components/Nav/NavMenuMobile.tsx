@@ -23,7 +23,7 @@ export const NavMenuMobile = ({
         {/* <SearchIcon className="size-6" /> */}
         <Dialog.Root open={open} onOpenChange={setOpen}>
           <Dialog.Trigger>
-            <MenuIcon className="size-6" />
+            <MenuIcon className="size-[calc(var(--sm)*1.5)]" />
           </Dialog.Trigger>
 
           <Dialog.Portal>
@@ -36,7 +36,7 @@ export const NavMenuMobile = ({
                   <div className="flex flex-row gap-8">
                     {/* <SearchIcon className="size-6" /> */}
                     <Dialog.Close>
-                      <X className="size-6" />
+                      <X className="size-[calc(var(--sm)*1.5)]" />
                     </Dialog.Close>
                   </div>
                 </header>
