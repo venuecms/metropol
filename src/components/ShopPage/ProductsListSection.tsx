@@ -7,7 +7,7 @@ import { ProductsListContent } from "./ProductsListContent";
 
 function ProductsListError() {
   return (
-    <section className="py-20">
+    <section className="pb-20 pt-6">
       <p className="text-secondary">
         Unable to load products. Please try refreshing the page.
       </p>
@@ -17,7 +17,7 @@ function ProductsListError() {
 
 function ProductsListSkeleton() {
   return (
-    <section className="py-20">
+    <section className="pb-20 pt-6">
       <div className="grid gap-8 pb-20 sm:max-w-full lg:grid-cols-2 xl:grid-cols-4">
         {[1, 2, 3, 4].map((i) => (
           <div key={i} className="flex flex-col gap-3">

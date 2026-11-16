@@ -15,6 +15,7 @@ import type { AllListingComponents, ContentEntries } from "@venuecms/sdk-next";
 import { renderedStyles } from "@/components/utils/styles";
 
 import {
+  EventGridListingBlock,
   EventListingBlock,
   NewsListingBlock,
   PageListingBlock,
@@ -39,4 +40,13 @@ export const contentComponents: ContentEntries & AllListingComponents = {
   pageListing: PageListingBlock,
   productListing: ProductListingBlock,
   profileListing: ProfileListingBlock,
+};
+
+/**
+ * `contentComponents` for the body of a page typed as an event listing: its
+ * event listing blocks draw the homepage's grid instead of the plain list.
+ */
+export const eventListPageComponents: ContentEntries & AllListingComponents = {
+  ...contentComponents,
+  eventListing: EventGridListingBlock,
 };

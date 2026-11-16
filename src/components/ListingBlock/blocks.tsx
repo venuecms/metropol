@@ -28,7 +28,7 @@
 import type { ListingProps } from "@venuecms/sdk-next";
 import { useTranslations } from "next-intl";
 
-import { EventsList, ListEvent } from "@/components/EventList";
+import { EventsGrid, EventsList, ListEvent } from "@/components/EventList";
 import { ListProduct } from "@/components/ListProduct";
 import { ListPage, PagesList } from "@/components/PageList";
 import { ProfileCompact } from "@/components/ProfileCompact";
@@ -66,6 +66,33 @@ export const EventListingBlock = ({
           <ListEvent key={event.id} event={event} site={site} withImage />
         ))}
       </EventsList>
+    </PaginatedListing>
+  );
+};
+
+/**
+ * The event listing as the homepage draws it, for a page typed as an event
+ * listing. Swapped in by `eventListPageComponents`, so the same block placed on
+ * any other page keeps the list above.
+ */
+export const EventGridListingBlock = ({
+  records,
+  site,
+  pagination,
+}: ListingProps<"eventListing">) => {
+  const t = useTranslations("listings");
+
+  if (!site) {
+    return null;
+  }
+
+  return (
+    <PaginatedListing
+      pagination={pagination}
+      records={records}
+      label={t("events")}
+    >
+      <EventsGrid events={records} site={site} className="py-4" />
     </PaginatedListing>
   );
 };

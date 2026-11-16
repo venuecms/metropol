@@ -42,6 +42,17 @@ export default {
         light: "300",
         regular: "500",
       },
+      keyframes: {
+        "slide-up": {
+          from: { opacity: "0", transform: "translateY(1.5rem)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+      },
+      animation: {
+        // `both` holds the hidden start frame through any animation-delay, so
+        // staggered items don't flash in before their turn.
+        "slide-up": "slide-up 600ms cubic-bezier(0.22, 1, 0.36, 1) both",
+      },
     },
   },
 };
