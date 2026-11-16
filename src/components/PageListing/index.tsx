@@ -11,6 +11,7 @@ import {
 
 import {
   contentComponents,
+  contentHandlers,
   eventListPageComponents,
   pageBodyStyles,
 } from "../ListingBlock";
@@ -108,6 +109,7 @@ export const PageListing = ({
         contentStyles={
           layout === "events" ? eventListPageComponents : contentComponents
         }
+        components={contentHandlers}
         searchParams={searchParams}
       />
       {/* The shop's section doesn't stack its children, so the sub-pages

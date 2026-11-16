@@ -11,7 +11,11 @@ import type { ReactNode } from "react";
 import { Link } from "@/lib/i18n";
 import { PageWithParent } from "@/lib/utils/tree";
 
-import { contentComponents, pageBodyStyles } from "@/components/ListingBlock";
+import {
+  contentComponents,
+  contentHandlers,
+  pageBodyStyles,
+} from "@/components/ListingBlock";
 
 import { hasRenderableContent } from "../utils/pageContent";
 import { resolvePageHref } from "../utils/pageHref";
@@ -86,6 +90,7 @@ export const SubPages = async ({
               className={pageBodyStyles}
               content={content}
               contentStyles={contentComponents}
+              components={contentHandlers}
               searchParams={searchParams}
             />
           ) : null}
