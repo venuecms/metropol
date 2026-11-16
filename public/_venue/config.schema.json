@@ -60,6 +60,52 @@
       "default": "jost",
       "title": "Font"
     },
+    "textCase": {
+      "type": "string",
+      "enum": [
+        "none",
+        "lowercase",
+        "uppercase"
+      ],
+      "enumNames": [
+        "As typed",
+        "lowercase",
+        "UPPERCASE"
+      ],
+      "default": "uppercase",
+      "description": "Sets the letter case of your text, whatever case it was typed in. Only how it looks changes; the text itself is kept as typed.",
+      "title": "Text Case"
+    },
+    "textCaseScope": {
+      "type": "string",
+      "enum": [
+        "paragraphs",
+        "all"
+      ],
+      "enumNames": [
+        "Paragraphs",
+        "All"
+      ],
+      "default": "paragraphs",
+      "description": "Which text the Text Case applies to: body paragraphs only, or all text including navigation, links and buttons. Headings have their own setting.",
+      "title": "Text Case Applies To"
+    },
+    "headingCase": {
+      "type": "string",
+      "enum": [
+        "none",
+        "lowercase",
+        "uppercase"
+      ],
+      "enumNames": [
+        "As typed",
+        "lowercase",
+        "UPPERCASE"
+      ],
+      "default": "none",
+      "description": "Sets the letter case of headings and titles, whatever case they were typed in. Takes priority over Text Case.",
+      "title": "Heading Case"
+    },
     "showSearch": {
       "type": "boolean",
       "default": false,

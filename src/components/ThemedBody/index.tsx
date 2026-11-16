@@ -24,6 +24,7 @@ import { ReactNode } from "react";
 import { FILTERABLE_IMAGE_CLASS } from "@/components/VenueImage";
 
 import { buildThemeColorOverrideCss } from "./colors";
+import { buildTextCaseCss } from "./textCase";
 
 const WorkSans = Work_Sans({
   subsets: ["latin"],
@@ -200,6 +201,7 @@ export const ThemedBody = async ({ children }: { children: ReactNode }) => {
   // On unless a site switches it off: a site that never saved the setting has
   // no value for it, and the schema's default only reaches the settings form.
   const imageDuotone = templateConfig.imageDuotone !== false;
+  const textCaseCss = buildTextCaseCss(templateConfig);
   const fontStyle =
     ThemeFonts[fontName as keyof typeof ThemeFonts] ?? ThemeFonts.default;
 
@@ -217,6 +219,11 @@ export const ThemedBody = async ({ children }: { children: ReactNode }) => {
       <style href="venue-theme-font" precedence="high">
         {`body { font-family: ${fontStyle.fontFamily}; }`}
       </style>
+      {textCaseCss && (
+        <style href="venue-text-case" precedence="high">
+          {textCaseCss}
+        </style>
+      )}
       {imageDuotone && (
         <style href="venue-image-duotone" precedence="high">
           {imageDuotoneCss}

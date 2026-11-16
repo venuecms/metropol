@@ -12,7 +12,10 @@
     "archive": "Arkiv",
     "cancelled": "Inställt",
     "no_events_found": "Inga evenemang hittades",
-    "load_error": "Det gick inte att ladda evenemangen. Försök att uppdatera sidan."
+    "load_error": "Det gick inte att ladda evenemangen. Försök att uppdatera sidan.",
+    "starts": "Starttid",
+    "ends": "Sluttid",
+    "map": "karta"
   },
   "shop": {
     "shop": "Butik",
@@ -27,7 +30,8 @@
     "no_profiles_found": "Inga artister hittades"
   },
   "tickets": {
-    "free": "gratis"
+    "free": "gratis",
+    "get_tickets": "Köp biljetter"
   },
   "news": {
     "news": "Nyheter",

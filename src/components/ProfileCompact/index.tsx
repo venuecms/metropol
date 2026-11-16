@@ -12,6 +12,7 @@ import { VenueImage } from "@/components/VenueImage";
 // Deliberately plain `renderedStyles` rather than `contentComponents`: this bio
 // is itself what a profile listing renders, so a map carrying the listing
 // blocks would let a profile listing nest inside its own results.
+import { proseHandlers } from "../utils/handlers";
 import { renderedStyles } from "../utils/styles";
 
 export const ProfileCompact = ({
@@ -44,6 +45,7 @@ export const ProfileCompact = ({
         className="flex flex-col gap-6 pr-4"
         content={content}
         contentStyles={renderedStyles}
+        components={proseHandlers}
       />
     </div>
   );

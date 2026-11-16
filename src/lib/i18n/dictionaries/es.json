@@ -12,7 +12,10 @@
     "archive": "Archivo",
     "cancelled": "Cancelado",
     "no_events_found": "No se encontraron eventos",
-    "load_error": "No se pudieron cargar los eventos. Intenta actualizar la página."
+    "load_error": "No se pudieron cargar los eventos. Intenta actualizar la página.",
+    "starts": "Inicio",
+    "ends": "Fin",
+    "map": "mapa"
   },
   "shop": {
     "shop": "Tienda",
@@ -27,7 +30,8 @@
     "no_profiles_found": "No se encontraron artistas"
   },
   "tickets": {
-    "free": "gratis"
+    "free": "gratis",
+    "get_tickets": "Comprar entradas"
   },
   "news": {
     "news": "Noticias",

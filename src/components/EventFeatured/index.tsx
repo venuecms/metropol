@@ -15,6 +15,7 @@ import { LocationLink } from "../LocationLink";
 import { TicketList } from "../TicketList";
 import { ColumnLeft, ColumnRight, TwoColumnLayout } from "../layout";
 import { formatDateRange } from "../utils";
+import { proseHandlers } from "../utils/handlers";
 import { renderedStyles } from "../utils/styles";
 
 export const EventFeatured = ({
@@ -80,6 +81,7 @@ export const EventFeatured = ({
               className="flex max-w-xl flex-col gap-6"
               content={content}
               contentStyles={renderedStyles}
+              components={proseHandlers}
             />
           </Link>
         </ColumnRight>
@@ -109,7 +111,11 @@ export const EventFeatured = ({
           <div className="text-xl">
             <Link href={`/events/${event.slug}`}>
               {/* Inside a Link, as above. */}
-              <VenueContent content={content} contentStyles={renderedStyles} />
+              <VenueContent
+                content={content}
+                contentStyles={renderedStyles}
+                components={proseHandlers}
+              />
             </Link>
           </div>
         </div>

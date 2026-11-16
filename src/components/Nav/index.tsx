@@ -5,6 +5,7 @@ import { ReactNode } from "react";
 
 // The site description is a short blurb, so it takes prose styling only — no
 // listing blocks to resolve here.
+import { proseHandlers } from "../utils/handlers";
 import { renderedStyles } from "../utils/styles";
 import { NavMenuDesktop } from "./NavMenuDesktop";
 import { NavMenuMobile } from "./NavMenuMobile";
@@ -37,6 +38,7 @@ export const Nav = async ({ logo, site }: { logo: ReactNode; site: Site }) => {
             <VenueContent
               content={{ content: site.description } as LocalizedContent}
               contentStyles={renderedStyles}
+              components={proseHandlers}
             />
           ) : null
         }
