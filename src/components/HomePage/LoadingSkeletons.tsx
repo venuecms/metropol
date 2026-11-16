@@ -1,5 +1,10 @@
 import { EventsList } from "@/components/EventList";
-import { ColumnLeft, ColumnRight, TwoColumnLayout } from "@/components/layout";
+import {
+  ColumnLeft,
+  ColumnRight,
+  FullWidthLayout,
+  TwoColumnLayout,
+} from "@/components/layout";
 import { Skeleton } from "@/components/ui/Input/Skeleton";
 
 export function FeaturedEventsSkeleton() {
@@ -46,18 +51,14 @@ export function FeaturedEventsSkeleton() {
 
 export function EventsSkeleton() {
   return (
-    <TwoColumnLayout>
-      <ColumnLeft className="hidden text-sm text-secondary sm:flex">
-        <div className="flex flex-col gap-2">
-          <Skeleton />
-          <Skeleton />
-          <Skeleton className="w-3/4" />
-        </div>
-      </ColumnLeft>
-      <ColumnRight>
-        <EventsList>
+    <>
+      <FullWidthLayout>
+        <EventsList className="gap-y-4 sm:grid-cols-3">
           {[1, 2, 3, 4, 5, 6].map((i) => (
             <div key={i} className="flex flex-col gap-8 pb-8 sm:gap-0">
+              <div className="w-full pb-3">
+                <Skeleton className="aspect-video" />
+              </div>
               <div className="flex flex-col gap-1">
                 <Skeleton className="w-32" />
                 <Skeleton className="w-48" />
@@ -66,8 +67,15 @@ export function EventsSkeleton() {
             </div>
           ))}
         </EventsList>
-      </ColumnRight>
-    </TwoColumnLayout>
+      </FullWidthLayout>
+      <FullWidthLayout>
+        <div className="flex max-w-2xl flex-col gap-2">
+          <Skeleton />
+          <Skeleton />
+          <Skeleton className="w-3/4" />
+        </div>
+      </FullWidthLayout>
+    </>
   );
 }
 

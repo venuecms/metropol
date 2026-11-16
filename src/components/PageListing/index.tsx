@@ -1,9 +1,18 @@
 import type { LocalizedContent, SearchParams } from "@venuecms/sdk-next";
 import { VenueContent } from "@venuecms/sdk-next";
 
-import { ColumnLeft, ColumnRight, TwoColumnLayout } from "@/components/layout";
+import {
+  ColumnLeft,
+  ColumnRight,
+  FullWidthLayout,
+  TwoColumnLayout,
+} from "@/components/layout";
 
-import { contentComponents, pageBodyStyles } from "../ListingBlock";
+import {
+  contentComponents,
+  eventListPageComponents,
+  pageBodyStyles,
+} from "../ListingBlock";
 import { NewsView } from "../News";
 import { hasRenderableContent } from "../utils/pageContent";
 import type { PageListingLayout } from "../utils/pageLayout";
@@ -46,17 +55,26 @@ export const PageListing = ({
     <VenueContent
       className={pageBodyStyles}
       content={content}
-      contentStyles={contentComponents}
+      contentStyles={
+        layout === "events" ? eventListPageComponents : contentComponents
+      }
       searchParams={searchParams}
     />
   );
 
-  // The frames the /shop, /events and /artists routes use, so a page typed as
-  // one of those listings sits where its own index does.
+  // The shop and artists frames match their own routes, so a page typed as one
+  // of those listings sits where its index does.
   switch (layout) {
     case "products":
-      return <section className="py-20">{body}</section>;
+      return <section className="pb-20 pt-6">{body}</section>;
+    // Full width, so the body's event listings get the homepage's grid.
     case "events":
+      return (
+        <FullWidthLayout>
+          {title ? <p className="text-sm text-primary">{title}</p> : null}
+          {body}
+        </FullWidthLayout>
+      );
     case "profiles":
       return (
         <TwoColumnLayout>

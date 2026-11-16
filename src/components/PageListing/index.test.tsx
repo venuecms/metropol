@@ -22,6 +22,7 @@ vi.mock("../News", () => ({
 vi.mock("../ListingBlock", async (importOriginal) => ({
   ...(await importOriginal<typeof import("../ListingBlock")>()),
   contentComponents: { p: "prose" },
+  eventListPageComponents: { p: "prose", eventListing: "grid" },
 }));
 
 vi.mock("@venuecms/sdk-next", () => ({
@@ -95,7 +96,7 @@ describe("PageListing", () => {
   it("frames the products listing the way /shop frames its own", async () => {
     const html = await renderListing({ layout: "products", content: body });
 
-    expect(html).toContain('<section class="py-20">');
+    expect(html).toContain('<section class="pb-20 pt-6">');
   });
 
   it.each(["events", "profiles"] as const)(
@@ -130,10 +131,22 @@ describe("PageListing", () => {
     );
   });
 
-  it("gives the body the listing-block components", async () => {
+  it.each(["profiles", "products"] as const)(
+    "gives the %s body the listing-block components",
+    async (layout) => {
+      const html = await renderListing({ layout, content: body });
+
+      expect(html).toContain('<span data-testid="body-styles">p</span>');
+    },
+  );
+
+  // The page's event listings draw the homepage's grid rather than the list.
+  it("gives the events body the grid listing components", async () => {
     const html = await renderListing({ layout: "events", content: body });
 
-    expect(html).toContain('<span data-testid="body-styles">p</span>');
+    expect(html).toContain(
+      '<span data-testid="body-styles">p|eventListing</span>',
+    );
   });
 
   // A block in the body pages off a param of its own; handing the body an empty

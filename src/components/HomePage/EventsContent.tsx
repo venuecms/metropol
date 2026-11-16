@@ -10,10 +10,10 @@ import { connection } from "next/server";
 
 import { Link } from "@/lib/i18n";
 
-import { EventsList, ListEvent } from "@/components/EventList";
+import { EventsGrid } from "@/components/EventList";
 import { contentComponents } from "@/components/ListingBlock";
 import { TranslatedText } from "@/components/TranslatedText";
-import { ColumnLeft, ColumnRight, TwoColumnLayout } from "@/components/layout";
+import { FullWidthLayout } from "@/components/layout";
 
 export async function EventsContent({
   locale,
@@ -48,54 +48,37 @@ export async function EventsContent({
     : { content: { content: site.description } as LocalizedContent };
 
   return (
-    <TwoColumnLayout>
-      <ColumnLeft className="hidden text-sm text-secondary sm:flex">
-        {siteContent ? (
+    <>
+      {events?.records.length ? (
+        <FullWidthLayout>
+          <section className="flex flex-col gap-3">
+            <EventsGrid events={events.records} site={site} />
+            {events.records.length >= 6 ? (
+              <Link
+                className="flex w-full items-center gap-2 hover:brightness-125"
+                href="/events"
+              >
+                <ArrowRight className="h-4" />{" "}
+                <TranslatedText
+                  namespace="events"
+                  text="see_all_upcoming_events"
+                />
+              </Link>
+            ) : null}
+          </section>
+        </FullWidthLayout>
+      ) : null}
+
+      {siteContent ? (
+        <FullWidthLayout className="text-sm text-secondary">
           <VenueContent
-            className="flex flex-col gap-6"
+            className="flex max-w-2xl flex-col gap-6"
             content={siteContent}
             contentStyles={contentComponents}
             searchParams={resolvedSearchParams}
           />
-        ) : null}
-      </ColumnLeft>
-      <ColumnRight>
-        {events?.records.length ? (
-          <section className="flex flex-col gap-3">
-            <EventsList>
-              {events.records.map((event) => (
-                <ListEvent key={event.id} event={event} site={site} />
-              ))}
-            </EventsList>
-            {events.records.length >= 6 ? (
-              <div className="w-full grid-cols-1 gap-12 sm:grid">
-                <span></span>
-                <Link
-                  className="flex w-full items-center gap-2 hover:brightness-125 sm:relative sm:flex-row"
-                  href="/events"
-                >
-                  <ArrowRight className="h-4" />{" "}
-                  <TranslatedText
-                    namespace="events"
-                    text="see_all_upcoming_events"
-                  />
-                </Link>
-              </div>
-            ) : null}
-          </section>
-        ) : null}
-
-        {siteContent ? (
-          <div className="flex sm:hidden">
-            <VenueContent
-              className="flex flex-col gap-6"
-              content={siteContent}
-              contentStyles={contentComponents}
-              searchParams={resolvedSearchParams}
-            />
-          </div>
-        ) : null}
-      </ColumnRight>
-    </TwoColumnLayout>
+        </FullWidthLayout>
+      ) : null}
+    </>
   );
 }

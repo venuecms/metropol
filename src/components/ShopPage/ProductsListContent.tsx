@@ -46,7 +46,7 @@ export async function ProductsListContent({
   const moreProducts = products?.records.slice(4);
 
   return (
-    <section className="py-20">
+    <section className="pb-20 pt-6">
       <div className="grid gap-8 pb-20 sm:max-w-full lg:grid-cols-2 xl:grid-cols-4">
         {topProducts?.length
           ? topProducts.map((product) => (

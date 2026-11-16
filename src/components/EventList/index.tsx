@@ -29,6 +29,39 @@ export const EventsList = ({
   );
 };
 
+/**
+ * The homepage's event grid: three columns with images from `sm` up, one on
+ * phones, each card sliding up in turn as the grid appears. Shared so a page
+ * typed as an event listing draws its records exactly as the homepage does.
+ */
+export const EventsGrid = ({
+  events,
+  site,
+  className,
+}: {
+  events: Event[];
+  site: Site;
+  className?: string;
+}) => (
+  <EventsList className={cn("gap-y-4 sm:grid-cols-3", className)}>
+    {events.map((event, index) => (
+      <div
+        key={event.id}
+        className="motion-safe:animate-slide-up"
+        // Staggered so the grid fills in card by card.
+        style={{ animationDelay: `${index * 80}ms` }}
+      >
+        <ListEvent
+          event={event}
+          site={site}
+          withImage
+          imageClassName="sm:w-full"
+        />
+      </div>
+    ))}
+  </EventsList>
+);
+
 export const ListEvent = ({
   event,
   site,
@@ -36,6 +69,7 @@ export const ListEvent = ({
   withTime = true,
   dateTemplate,
   className,
+  imageClassName,
 }: {
   event: Event;
   site: Site;
@@ -43,6 +77,8 @@ export const ListEvent = ({
   withTime?: boolean;
   dateTemplate?: string;
   className?: string;
+  /** Merged over the image wrapper, e.g. `sm:w-full` to fill a grid cell. */
+  imageClassName?: string;
 }) => {
   const locale = useLocale();
   const t = useTranslations("events");
@@ -62,7 +98,9 @@ export const ListEvent = ({
       )}
     >
       {withImage ? (
-        <div className={cn("w-full pb-3 sm:w-80 sm:max-w-full")}>
+        <div
+          className={cn("w-full pb-3 sm:w-80 sm:max-w-full", imageClassName)}
+        >
           <Link href={`/events/${event.slug}`}>
             <VenueImage image={displayImage} aspect="video" />
           </Link>
