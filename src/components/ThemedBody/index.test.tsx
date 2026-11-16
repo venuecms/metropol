@@ -101,18 +101,28 @@ describe("ThemedBody", () => {
     expect(html).toContain("--primary: 50, 1%, 10%, 1;");
   });
 
-  it("renders no stylesheet when the site chose no colors", async () => {
+  it("renders no color stylesheet when the site chose no colors", async () => {
     // An empty rule is still a rule; with nothing overridden the theme has to
-    // be the only source of color.
+    // be the only source of color. The font stylesheet is always there, so
+    // this looks for the colors one by name.
     const html = await renderWithConfig({ themeId: "space" });
 
-    expect(html).not.toContain("<style");
+    expect(html).not.toContain("venue-theme-colors");
     expect(html).not.toContain(":root:root");
   });
 
   it("renders when the site has no template config at all", async () => {
     getSite.mockResolvedValue({ data: undefined });
 
-    expect(await render()).not.toContain("<style");
+    expect(await render()).not.toContain("venue-theme-colors");
+  });
+
+  // On <body>, not just the wrapper, so the mobile nav dialog — portalled to
+  // document.body — renders in the site's font too.
+  it("sets the theme font on the body", async () => {
+    const html = await renderWithConfig({ themeId: "space" });
+
+    expect(html).toContain('data-href="venue-theme-font"');
+    expect(html).toContain("body { font-family:");
   });
 });

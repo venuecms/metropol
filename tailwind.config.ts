@@ -33,10 +33,17 @@ export default {
         "panel-background": "hsla(var(--panel-background))",
         "panel-background-2": "hsla(var(--panel-background-2))",
       },
+      // Fluid sizes from the scale in globals.css. Line heights are unitless
+      // so they track the size as it grows, tightening as the type gets larger.
       fontSize: {
-        sm: ["1rem", "1.5rem"],
-        md: ["1rem", "1.5rem"],
-        xl: ["2rem", "2.5rem"],
+        xxs: ["var(--xxs)", "1.5"],
+        xs: ["var(--xs)", "1.5"],
+        sm: ["var(--sm)", "1.5"],
+        md: ["var(--md)", "1.4"],
+        lg: ["var(--lg)", "1.3"],
+        xl: ["var(--xl)", "1.2"],
+        xxl: ["var(--xxl)", "1.1"],
+        xxxl: ["var(--xxxl)", "1.05"],
       },
       fontWeight: {
         light: "300",
