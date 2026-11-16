@@ -60,7 +60,7 @@ export async function ProfilesListContent({
         {records.length ? (
           <TwoSubColumnLayout>
             {records.map((profile) => (
-              <ProfileCompact key={profile.slug} profile={profile} />
+              <ProfileCompact key={profile.slug} profile={profile} inListing />
             ))}
           </TwoSubColumnLayout>
         ) : (

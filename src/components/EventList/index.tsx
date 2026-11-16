@@ -102,7 +102,7 @@ export const ListEvent = ({
           className={cn("w-full pb-3 sm:w-80 sm:max-w-full", imageClassName)}
         >
           <Link href={`/events/${event.slug}`}>
-            <VenueImage image={displayImage} aspect="video" />
+            <VenueImage image={displayImage} aspect="video" filter />
           </Link>
         </div>
       ) : null}

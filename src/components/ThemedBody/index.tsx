@@ -21,6 +21,8 @@ import {
 } from "next/font/google";
 import { ReactNode } from "react";
 
+import { FILTERABLE_IMAGE_CLASS } from "@/components/VenueImage";
+
 import { buildThemeColorOverrideCss } from "./colors";
 
 const WorkSans = Work_Sans({
@@ -146,6 +148,41 @@ const ThemeFonts = {
   custom: { fontFamily: "custom" },
 };
 
+/**
+ * The duotone image filter for listing images, on by default and switched off
+ * by `imageDuotone: false` in the template config. It reaches only images
+ * that opt in through VenueImage's `filter`: the cards in a listing. Each image goes grayscale, then a layer of the primary color is
+ * screened over it: black takes the primary color, white stays white, and
+ * the grays between run from one to the other. Being CSS, it follows the
+ * theme and any color override with no image processing.
+ *
+ * Hovering an image fades it back to full color — only where a pointer can
+ * hover, so a tap on a touch screen doesn't leave it stuck in color — and the
+ * fade is skipped for readers who ask for reduced motion.
+ *
+ * Screen lightens towards white, so the effect suits light themes; on a dark
+ * one the highlights still come out white rather than the theme's background.
+ */
+const imageDuotoneCss = `
+  .${FILTERABLE_IMAGE_CLASS} img { filter: grayscale(1) contrast(1.1); }
+  .${FILTERABLE_IMAGE_CLASS}::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: hsla(var(--primary));
+    mix-blend-mode: screen;
+    pointer-events: none;
+  }
+  @media (hover: hover) {
+    .${FILTERABLE_IMAGE_CLASS}:hover img { filter: none; }
+    .${FILTERABLE_IMAGE_CLASS}:hover::after { opacity: 0; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .${FILTERABLE_IMAGE_CLASS} img { transition: filter 400ms ease; }
+    .${FILTERABLE_IMAGE_CLASS}::after { transition: opacity 400ms ease; }
+  }
+`;
+
 export const ThemedBody = async ({ children }: { children: ReactNode }) => {
   const { data: site } = await getSite();
 
@@ -160,6 +197,9 @@ export const ThemedBody = async ({ children }: { children: ReactNode }) => {
       ? templateConfig.fontName
       : "default";
   const colorOverrideCss = buildThemeColorOverrideCss(templateConfig, themeId);
+  // On unless a site switches it off: a site that never saved the setting has
+  // no value for it, and the schema's default only reaches the settings form.
+  const imageDuotone = templateConfig.imageDuotone !== false;
   const fontStyle =
     ThemeFonts[fontName as keyof typeof ThemeFonts] ?? ThemeFonts.default;
 
@@ -177,6 +217,11 @@ export const ThemedBody = async ({ children }: { children: ReactNode }) => {
       <style href="venue-theme-font" precedence="high">
         {`body { font-family: ${fontStyle.fontFamily}; }`}
       </style>
+      {imageDuotone && (
+        <style href="venue-image-duotone" precedence="high">
+          {imageDuotoneCss}
+        </style>
+      )}
       <div className="flex min-h-screen flex-col" style={fontStyle}>
         {fontName === "custom" && site && (
           <style>
