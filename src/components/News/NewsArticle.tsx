@@ -4,7 +4,6 @@ import {
   type Page as VenuePage,
   getLocalizedContent,
 } from "@venuecms/sdk-next";
-import { format } from "date-fns";
 import { getLocale } from "next-intl/server";
 
 import { contentComponents } from "@/components/ListingBlock";
@@ -13,6 +12,7 @@ import { VenueImage } from "@/components/VenueImage";
 import { ProfileCompact } from "../ProfileCompact";
 import { ProfileLink } from "../ProfileLink";
 import { ColumnLeft, ColumnRight, TwoColumnLayout } from "../layout";
+import { formatDate } from "../utils/date";
 import { NewsArticleNav } from "./NewsArticleNav";
 import { NewsSidebar } from "./NewsSidebar";
 import { getNewsRecords } from "./utils";
@@ -45,7 +45,12 @@ export const NewsArticle = async ({
 
   const date =
     typeof article.date === "string"
-      ? format(new Date(article.date), "EEEE d MMMM yyyy")
+      ? formatDate({
+          date: article.date,
+          withTime: false,
+          template: "EEEE d MMMM yyyy",
+          locale,
+        })
       : null;
 
   return (

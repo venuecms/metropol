@@ -50,6 +50,7 @@ export const EventFeatured = ({
                 end: event.endDate,
                 withTime: event.hasTime,
                 timeZone: site.timeZone!,
+                locale,
               })}
             </Link>
           </div>
@@ -93,6 +94,7 @@ export const EventFeatured = ({
                   end: event.endDate,
                   withTime: event.hasTime,
                   timeZone: site.timeZone!,
+                  locale,
                 })}
               </Link>
             </div>

@@ -78,6 +78,7 @@ export const ListEvent = ({
                 withTime: withTime && event.hasTime,
                 template: dateTemplate,
                 timeZone: site.timeZone!,
+                locale,
               })}
             </Link>
           </div>

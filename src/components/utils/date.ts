@@ -1,5 +1,46 @@
 import { TZDate } from "@date-fns/tz";
-import { format } from "date-fns";
+import { type Locale as DateFnsLocale, format } from "date-fns";
+import { sk } from "date-fns/locale";
+
+/**
+ * How one language writes dates and times. A locale without an entry here
+ * keeps the English formatting the templates are written in.
+ */
+type DateLocale = {
+  dateFnsLocale?: DateFnsLocale;
+  /** Rewrites an English-style template (`d MMMM yyyy`) for this language. */
+  localizeTemplate: (template: string) => string;
+  /** Suffix appended to the template when the record has a time. */
+  time: string;
+  /** Tidies the formatted string, e.g. dropping `.00` from on-the-hour times. */
+  clean: (formatted: string) => string;
+  /** Day of the month on its own, as the start of a range (`16` / `16.`). */
+  rangeDay: string;
+};
+
+const english: DateLocale = {
+  localizeTemplate: (template) => template,
+  time: " • h.mmaaa",
+  clean: (formatted) => formatted.split(".00").join(""),
+  rangeDay: "d",
+};
+
+const dateLocales: Record<string, DateLocale> = {
+  // Slovak writes the day as an ordinal (`16. novembra 2026`), puts a comma
+  // after the weekday, and uses the 24-hour clock. date-fns' `MMMM` gives the
+  // genitive month name Slovak needs after a day number.
+  sk: {
+    dateFnsLocale: sk,
+    localizeTemplate: (template) =>
+      template.replace(/EEEE d\b/g, "EEEE, d").replace(/\bd\b/g, "d."),
+    time: " • H:mm",
+    clean: (formatted) => formatted,
+    rangeDay: "d.",
+  },
+};
+
+const dateLocaleFor = (locale?: string) =>
+  (locale && dateLocales[locale]) || english;
 
 /**
  * Formats a record date in the venue's zone. `timeZone` is optional because
@@ -11,18 +52,28 @@ export const formatDate = ({
   withTime = true,
   timeZone,
   template,
+  locale,
 }: {
   date: string;
   withTime?: boolean;
   timeZone?: string;
   template: string;
+  locale?: string;
 }) => {
+  const dateLocale = dateLocaleFor(locale);
+  const pattern = dateLocale.localizeTemplate(template);
+  const options = { locale: dateLocale.dateFnsLocale };
+
   if (withTime) {
-    return format(new TZDate(date, timeZone), `${template} • h.mmaaa`)
-      .split(".00")
-      .join("");
+    return dateLocale.clean(
+      format(
+        new TZDate(date, timeZone),
+        `${pattern}${dateLocale.time}`,
+        options,
+      ),
+    );
   }
-  return format(new TZDate(date, timeZone), template);
+  return format(new TZDate(date, timeZone), pattern, options);
 };
 
 export const formatDateRange = ({
@@ -31,33 +82,50 @@ export const formatDateRange = ({
   timeZone,
   withTime,
   template = "EEEE d MMMM yyyy",
+  locale,
 }: {
   start: string;
   end: string;
   timeZone: string;
   withTime?: boolean;
   template?: string;
+  locale?: string;
 }) => {
   const startDate = new TZDate(start, timeZone);
   const endDate = new TZDate(end, timeZone);
 
   const isMultiDay =
-    startDate.getDay() !== endDate.getDay() ||
+    startDate.getDate() !== endDate.getDate() ||
     startDate.getMonth() !== endDate.getMonth() ||
     startDate.getFullYear() !== endDate.getFullYear();
 
   if (!isMultiDay) {
-    return formatDate({ date: start, withTime, template, timeZone });
+    return formatDate({ date: start, withTime, template, timeZone, locale });
   }
+
+  const dateLocale = dateLocaleFor(locale);
+  const options = { locale: dateLocale.dateFnsLocale };
 
   const isSameMonth =
     startDate.getMonth() === endDate.getMonth() &&
     startDate.getFullYear() === endDate.getFullYear();
 
+  const endLabel = formatDate({
+    date: end,
+    withTime: false,
+    timeZone,
+    template: "d MMMM yyyy",
+    locale,
+  });
+
   if (isSameMonth) {
-    return `${format(new TZDate(start, timeZone), "d")}—${formatDate({ date: end, withTime: false, timeZone, template: "d MMMM yyyy" })}`;
+    return `${format(startDate, dateLocale.rangeDay, options)}—${endLabel}`;
   }
 
-  return `${format(new TZDate(start, timeZone), "d")} ${format(new TZDate(startDate, timeZone), "MMMM")} — ${format(new TZDate(endDate, timeZone), "d")} 
-       ${format(new TZDate(endDate, timeZone), "MMMM")} ${format(new TZDate(endDate, timeZone), "yyyy")}`;
+  const startLabel = format(
+    startDate,
+    dateLocale.localizeTemplate("d MMMM"),
+    options,
+  );
+  return `${startLabel} — ${endLabel}`;
 };
