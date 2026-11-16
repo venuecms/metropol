@@ -35,7 +35,7 @@ export const EventFeatured = ({
 
   return (
     <>
-      <TwoColumnLayout className={cn(className, "hidden")}>
+      <TwoColumnLayout className={cn("hidden lg:grid", className)}>
         <ColumnLeft>
           <Link href={`/events/${event.slug}`}>
             <VenueImage image={event.image} />
@@ -84,7 +84,7 @@ export const EventFeatured = ({
           </Link>
         </ColumnRight>
       </TwoColumnLayout>
-      <div className="flex sm:hidden">
+      <div className="flex lg:hidden">
         <div className="flex flex-col gap-8">
           <div>
             <div className="text-secondary">

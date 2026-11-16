@@ -49,6 +49,7 @@ const PagePage = async ({
       return (
         <PageListing
           layout={listingLayout}
+          pageId={page.id}
           title={content.title ?? undefined}
           content={content}
           searchParams={resolvedSearchParams}

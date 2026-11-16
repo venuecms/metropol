@@ -43,7 +43,7 @@ export const EventsGrid = ({
   site: Site;
   className?: string;
 }) => (
-  <EventsList className={cn("gap-y-4 sm:grid-cols-3", className)}>
+  <EventsList className={cn("gap-y-4 lg:grid-cols-3", className)}>
     {events.map((event, index) => (
       <div
         key={event.id}

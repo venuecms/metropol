@@ -6,6 +6,7 @@ import { Suspense } from "react";
 import { QueryProvider } from "@/lib/providers/QueryProvider";
 import { VenueProvider } from "@/lib/utils/VenueProvider";
 
+import { Footer } from "@/components/Footer";
 import { NavigationProgress } from "@/components/NavigationProgress";
 import { SearchProvider } from "@/components/Search/provider";
 import { SearchResultsLayout } from "@/components/SearchResults";
@@ -39,6 +40,7 @@ const LayoutContent = async ({
               <ThemedBody>
                 <SiteHeader />
                 <SearchResultsLayout>{children}</SearchResultsLayout>
+                <Footer />
               </ThemedBody>
             </Suspense>
           </SearchProvider>

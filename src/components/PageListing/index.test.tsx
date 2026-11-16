@@ -19,6 +19,12 @@ vi.mock("../News", () => ({
 }));
 
 // Partial: the real `pageBodyStyles` is what this file asserts the body carries.
+vi.mock("../Page/SubPages", () => ({
+  SubPages: ({ parentId }: { parentId: string }) => (
+    <div data-testid="sub-pages">{parentId}</div>
+  ),
+}));
+
 vi.mock("../ListingBlock", async (importOriginal) => ({
   ...(await importOriginal<typeof import("../ListingBlock")>()),
   contentComponents: { p: "prose" },
@@ -172,5 +178,31 @@ describe("PageListing", () => {
     const html = await renderListing({ layout: "events", content });
 
     expect(html).toBe("");
+  });
+
+  it.each(["profiles", "products", "news"] as const)(
+    "stacks the page's sub-pages in the %s listing",
+    async (layout) => {
+      const html = await renderListing({ layout, content: body, pageId: "p1" });
+
+      expect(html).toContain('<div data-testid="sub-pages">p1</div>');
+    },
+  );
+
+  // A listing page with no body of its own can still head a section.
+  it("leaves the event listing's sub-pages off it", async () => {
+    const html = await renderListing({
+      layout: "events",
+      content: body,
+      pageId: "p1",
+    });
+
+    expect(html).not.toContain('data-testid="sub-pages"');
+  });
+
+  it("draws the sub-pages even when the page has no body", async () => {
+    const html = await renderListing({ layout: "profiles", pageId: "p1" });
+
+    expect(html).toContain('<div data-testid="sub-pages">p1</div>');
   });
 });

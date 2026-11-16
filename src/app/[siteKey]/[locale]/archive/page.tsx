@@ -6,6 +6,7 @@ import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 import { EventsList, ListEvent } from "@/components/EventList";
+import { SubPages } from "@/components/Page/SubPages";
 import { Pagination } from "@/components/Pagination";
 import { ColumnLeft, ColumnRight, TwoColumnLayout } from "@/components/layout";
 import { setupSSR } from "@/components/utils";
@@ -90,6 +91,7 @@ const ArchivePage = async ({
             baseUrl={`/archive`} // Use locale in base URL
           />
         ) : null}
+        {page ? <SubPages parentId={page.id} /> : null}
       </ColumnRight>
     </TwoColumnLayout>
   );

@@ -11,7 +11,7 @@ export function EventsError() {
 
   return (
     <TwoColumnLayout>
-      <ColumnLeft className="hidden text-sm text-secondary sm:flex" />
+      <ColumnLeft className="hidden text-sm text-secondary lg:flex" />
       <ColumnRight>
         <p className="text-secondary">{t("load_error")}</p>
       </ColumnRight>

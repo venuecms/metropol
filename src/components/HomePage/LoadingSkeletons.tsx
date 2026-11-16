@@ -11,7 +11,7 @@ export function FeaturedEventsSkeleton() {
   return (
     <div className="flex flex-col pb-16">
       {/* Desktop layout */}
-      <TwoColumnLayout className="hidden">
+      <TwoColumnLayout className="hidden lg:grid">
         <ColumnLeft>
           <Skeleton className="aspect-square" />
         </ColumnLeft>
@@ -30,7 +30,7 @@ export function FeaturedEventsSkeleton() {
       </TwoColumnLayout>
 
       {/* Mobile layout */}
-      <div className="flex sm:hidden">
+      <div className="flex lg:hidden">
         <div className="flex flex-col gap-8">
           <div className="flex flex-col gap-1">
             <Skeleton className="w-48" />
@@ -53,7 +53,7 @@ export function EventsSkeleton() {
   return (
     <>
       <FullWidthLayout>
-        <EventsList className="gap-y-4 sm:grid-cols-3">
+        <EventsList className="gap-y-4 lg:grid-cols-3">
           {[1, 2, 3, 4, 5, 6].map((i) => (
             <div key={i} className="flex flex-col gap-8 pb-8 sm:gap-0">
               <div className="w-full pb-3">

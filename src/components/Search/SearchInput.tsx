@@ -46,9 +46,12 @@ export const SearchInput = ({ className }: { className?: string }) => {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           ref={inputRef}
-          className="h-[1.5em]"
+          // pb nudges the text up: Metropol's custom font carries extra space
+          // above its capitals, which sits them low in a centered line. In em
+          // so the nudge scales with the fluid type size.
+          className="h-[1.5em] border-primary bg-primary px-2 pb-[0.15em] pt-0 leading-none text-background"
         />
-        <X onClick={reset} className="size-[1.25em]" />
+        <X onClick={reset} className="size-[1.5em]" />
       </div>
     </div>
   );
