@@ -15,7 +15,8 @@
     "load_error": "No se pudieron cargar los eventos. Intenta actualizar la página.",
     "starts": "Inicio",
     "ends": "Fin",
-    "map": "mapa"
+    "map": "mapa",
+    "related_events": "También te puede interesar"
   },
   "shop": {
     "shop": "Tienda",

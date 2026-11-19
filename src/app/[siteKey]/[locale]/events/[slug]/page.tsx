@@ -3,7 +3,9 @@ import { getGenerateMetadata } from "@/lib";
 import { Params } from "@/types";
 import { type SearchParams, getEvent, getSite } from "@venuecms/sdk-next";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
+import { RelatedEvents, showsRelatedEvents } from "@/components/RelatedEvents";
 import { setupSSR } from "@/components/utils";
 
 export const generateMetadata = getGenerateMetadata(getEvent);
@@ -29,7 +31,18 @@ const EventsPage = async ({
     notFound();
   }
 
-  return <Event event={event} site={site} searchParams={await searchParams} />;
+  return (
+    <>
+      <Event event={event} site={site} searchParams={await searchParams} />
+      {showsRelatedEvents(site) ? (
+        // Its own boundary: the related grid reads the clock and fetches more
+        // events, and the event itself should not wait on either.
+        <Suspense fallback={null}>
+          <RelatedEvents event={event} site={site} />
+        </Suspense>
+      ) : null}
+    </>
+  );
 };
 
 export default EventsPage;

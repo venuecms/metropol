@@ -15,7 +15,8 @@
     "load_error": "Unable to load events. Please try refreshing the page.",
     "starts": "Starts",
     "ends": "Ends",
-    "map": "map"
+    "map": "map",
+    "related_events": "You may also like"
   },
   "shop": {
     "shop": "Shop",
