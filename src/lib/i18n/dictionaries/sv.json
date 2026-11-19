@@ -15,7 +15,8 @@
     "load_error": "Det gick inte att ladda evenemangen. Försök att uppdatera sidan.",
     "starts": "Starttid",
     "ends": "Sluttid",
-    "map": "karta"
+    "map": "karta",
+    "related_events": "Du kanske också gillar"
   },
   "shop": {
     "shop": "Butik",

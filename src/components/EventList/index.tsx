@@ -5,7 +5,7 @@ import { ReactNode } from "react";
 import { Link } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
-import { VenueImage } from "@/components/VenueImage";
+import { VenueImage, type VenueImageAspect } from "@/components/VenueImage";
 
 import { LocationLink } from "../LocationLink";
 import { formatDateRange } from "../utils";
@@ -38,10 +38,13 @@ export const EventsGrid = ({
   events,
   site,
   className,
+  imageAspect,
 }: {
   events: Event[];
   site: Site;
   className?: string;
+  /** The cards' image ratio; 16:9 unless given. */
+  imageAspect?: VenueImageAspect;
 }) => (
   <EventsList className={cn("gap-y-4 lg:grid-cols-3", className)}>
     {events.map((event, index) => (
@@ -56,6 +59,7 @@ export const EventsGrid = ({
           site={site}
           withImage
           imageClassName="sm:w-full"
+          imageAspect={imageAspect}
         />
       </div>
     ))}
@@ -70,6 +74,7 @@ export const ListEvent = ({
   dateTemplate,
   className,
   imageClassName,
+  imageAspect = "video",
 }: {
   event: Event;
   site: Site;
@@ -79,6 +84,8 @@ export const ListEvent = ({
   className?: string;
   /** Merged over the image wrapper, e.g. `sm:w-full` to fill a grid cell. */
   imageClassName?: string;
+  /** The image's ratio; 16:9 unless given. */
+  imageAspect?: VenueImageAspect;
 }) => {
   const locale = useLocale();
   const t = useTranslations("events");
@@ -91,18 +98,13 @@ export const ListEvent = ({
     artists?.find((artist) => !!artist.profile?.image)?.profile.image;
 
   return (
-    <div
-      className={cn(
-        "flex break-inside-avoid flex-col pb-8",
-        className,
-      )}
-    >
+    <div className={cn("flex break-inside-avoid flex-col pb-8", className)}>
       {withImage ? (
         <div
           className={cn("w-full pb-3 sm:w-80 sm:max-w-full", imageClassName)}
         >
           <Link href={`/events/${event.slug}`}>
-            <VenueImage image={displayImage} aspect="video" filter />
+            <VenueImage image={displayImage} aspect={imageAspect} filter />
           </Link>
         </div>
       ) : null}

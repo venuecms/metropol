@@ -1,9 +1,17 @@
 import { MediaItem, VenueImage as SdkVenueImage } from "@venuecms/sdk-next";
 
+/**
+ * The SDK image knows `square` and `video` by name and takes anything else as
+ * the class itself, so other ratios are mapped to their class here — spelled
+ * out in full so Tailwind finds it.
+ */
 const ASPECTS = {
   square: "aspect-square",
   video: "aspect-video",
+  classic: "aspect-[4/3]",
 };
+
+export type VenueImageAspect = keyof typeof ASPECTS;
 
 /** Marks an image the site-wide duotone filter applies to; see ThemedBody. */
 export const FILTERABLE_IMAGE_CLASS = "venue-image";
@@ -17,7 +25,7 @@ export const VenueImage = ({
 }: {
   className?: string;
   image?: Partial<MediaItem>;
-  aspect?: keyof typeof ASPECTS;
+  aspect?: VenueImageAspect;
   props?: object;
   /**
    * Whether the site's image filter, when switched on, reaches this image.
@@ -31,7 +39,7 @@ export const VenueImage = ({
     <SdkVenueImage
       className={className}
       image={image}
-      aspect={aspect}
+      aspect={aspect && ASPECTS[aspect]}
       props={props}
     />
   );
