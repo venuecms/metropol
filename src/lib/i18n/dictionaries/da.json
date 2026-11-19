@@ -15,7 +15,8 @@
     "load_error": "Begivenhederne kunne ikke indlæses. Prøv at opdatere siden.",
     "starts": "Starter",
     "ends": "Slutter",
-    "map": "kort"
+    "map": "kort",
+    "related_events": "Du vil måske også kunne lide"
   },
   "shop": {
     "shop": "Butik",

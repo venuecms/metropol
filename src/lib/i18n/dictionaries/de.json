@@ -15,7 +15,8 @@
     "load_error": "Veranstaltungen konnten nicht geladen werden. Bitte laden Sie die Seite neu.",
     "starts": "Beginn",
     "ends": "Ende",
-    "map": "Karte"
+    "map": "Karte",
+    "related_events": "Das könnte dir auch gefallen"
   },
   "shop": {
     "shop": "Shop",

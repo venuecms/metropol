@@ -15,7 +15,8 @@
     "load_error": "Podujatia sa nepodarilo načítať. Skúste obnoviť stránku.",
     "starts": "Začiatok",
     "ends": "Koniec",
-    "map": "mapa"
+    "map": "mapa",
+    "related_events": "Mohlo by sa vám páčiť aj"
   },
   "shop": {
     "shop": "Obchod",
