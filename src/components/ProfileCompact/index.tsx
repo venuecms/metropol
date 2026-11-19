@@ -35,7 +35,11 @@ export const ProfileCompact = ({
     <div className="flex flex-col gap-6">
       <div>
         <Link href={`/artists/${profile.slug}`}>
-          <VenueImage image={profile.image} aspect="video" filter={inListing} />
+          <VenueImage
+            image={profile.image}
+            aspect="square"
+            filter={inListing}
+          />
         </Link>
       </div>
       <div className="text-secondary hover:brightness-125">
