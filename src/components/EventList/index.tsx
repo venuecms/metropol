@@ -51,8 +51,9 @@ export const EventsGrid = ({
       <div
         key={event.id}
         className="motion-safe:animate-slide-up"
-        // Staggered so the grid fills in card by card.
-        style={{ animationDelay: `${index * 80}ms` }}
+        // Staggered so the grid fills in card by card, capped so a long
+        // grid is all in within a second rather than trickling for several.
+        style={{ animationDelay: `${Math.min(index, 10) * 80}ms` }}
       >
         <ListEvent
           event={event}

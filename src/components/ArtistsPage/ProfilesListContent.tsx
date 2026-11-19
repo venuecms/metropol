@@ -6,15 +6,11 @@ import { connection } from "next/server";
 
 import { SubPages } from "@/components/Page/SubPages";
 import { PaginationLinks } from "@/components/Pagination";
-import { ProfileCompact } from "@/components/ProfileCompact";
-import {
-  ColumnLeft,
-  ColumnRight,
-  TwoColumnLayout,
-  TwoSubColumnLayout,
-} from "@/components/layout";
+import { ProfilesGrid } from "@/components/ProfilesGrid";
+import { FullWidthLayout } from "@/components/layout";
 
-const ITEMS_PER_PAGE = 24;
+/** Fills whole rows at two, three and five columns. */
+const ITEMS_PER_PAGE = 30;
 
 export async function ProfilesListContent({
   locale,
@@ -52,28 +48,20 @@ export async function ProfilesListContent({
     : records.length === ITEMS_PER_PAGE;
 
   return (
-    <TwoColumnLayout>
-      <ColumnLeft className="text-sm text-secondary">
-        <p className="pb-8 text-primary">{pageTitle}</p>
-      </ColumnLeft>
-      <ColumnRight>
-        {records.length ? (
-          <TwoSubColumnLayout>
-            {records.map((profile) => (
-              <ProfileCompact key={profile.slug} profile={profile} inListing />
-            ))}
-          </TwoSubColumnLayout>
-        ) : (
-          t("no_profiles_found")
-        )}
-        <PaginationLinks
-          prevHref={
-            currentPage <= 0 ? null : `/artists?page=${currentPage - 1}`
-          }
-          nextHref={hasNext ? `/artists?page=${currentPage + 1}` : null}
-        />
-        {page ? <SubPages parentId={page.id} /> : null}
-      </ColumnRight>
-    </TwoColumnLayout>
+    // Full width, as the homepage's event grid, with the title above it rather
+    // than in a column of its own: five columns of cards need the room.
+    <FullWidthLayout>
+      <p className="text-sm text-primary">{pageTitle}</p>
+      {records.length ? (
+        <ProfilesGrid profiles={records} />
+      ) : (
+        <p className="text-sm text-secondary">{t("no_profiles_found")}</p>
+      )}
+      <PaginationLinks
+        prevHref={currentPage <= 0 ? null : `/artists?page=${currentPage - 1}`}
+        nextHref={hasNext ? `/artists?page=${currentPage + 1}` : null}
+      />
+      {page ? <SubPages parentId={page.id} /> : null}
+    </FullWidthLayout>
   );
 }

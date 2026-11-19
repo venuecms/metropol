@@ -1,7 +1,7 @@
 import { getProfileEvents, getSite } from "@venuecms/sdk-next";
 import { connection } from "next/server";
 
-import { EventsList, ListEvent } from "@/components/EventList";
+import { EventsGrid } from "@/components/EventList";
 import { Skeleton } from "@/components/ui/Input/Skeleton";
 
 export const ProfileEventList = async ({
@@ -27,11 +27,8 @@ export const ProfileEventList = async ({
   return events?.records.length ? (
     <div className="flex flex-col gap-6">
       <h2 className="m-0 py-0 text-sm text-primary">{header}</h2>
-      <EventsList>
-        {events.records.map((event) => (
-          <ListEvent key={event.id} event={event} site={site} />
-        ))}
-      </EventsList>
+      {/* The homepage's grid, so an artist's events look as they do there. */}
+      <EventsGrid events={events.records} site={site} />
     </div>
   ) : null;
 };
@@ -44,11 +41,16 @@ export const ProfileEventListSkeleton = ({
   return (
     <div className="flex flex-col gap-6">
       <Skeleton className="w-1/4" />
-      <EventsList>
+      {/* Mirrors EventsGrid: image, date and title, three across. */}
+      <div className="grid gap-x-8 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
         {Array.from({ length: numElements }).map((_, index) => (
-          <Skeleton key={index} className="h-16 w-[90%]" />
+          <div key={index} className="flex flex-col gap-2 pb-8">
+            <Skeleton className="aspect-video w-full" />
+            <Skeleton className="w-1/3" />
+            <Skeleton className="w-3/4" />
+          </div>
         ))}
-      </EventsList>
+      </div>
     </div>
   );
 };

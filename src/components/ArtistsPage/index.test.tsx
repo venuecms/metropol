@@ -32,7 +32,7 @@ vi.mock("next-intl/server", async () => {
 });
 
 /** What the listing asks for; a page this long is what implies another. */
-const ITEMS_PER_PAGE = 24;
+const ITEMS_PER_PAGE = 30;
 
 const profile = (slug: string) => ({
   id: slug,
