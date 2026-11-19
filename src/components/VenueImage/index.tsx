@@ -22,6 +22,7 @@ export const VenueImage = ({
   aspect,
   props,
   filter = false,
+  withCredit = true,
 }: {
   className?: string;
   image?: Partial<MediaItem>;
@@ -34,6 +35,12 @@ export const VenueImage = ({
    * their images in full color.
    */
   filter?: boolean;
+  /**
+   * Whether the image's photo credit is set over its corner. On by default;
+   * a dense grid of cards turns it off, where a credit on every image crowds
+   * the cards. The image's own page still credits it.
+   */
+  withCredit?: boolean;
 }) => {
   const img = (
     <SdkVenueImage
@@ -45,7 +52,7 @@ export const VenueImage = ({
   );
 
   return (
-    <CreditWrapper credit={image?.credit}>
+    <CreditWrapper credit={withCredit ? image?.credit : null}>
       {filter ? (
         // The filter's tint is a layer over the image, so it needs a box of
         // its own to sit in; `isolate` keeps its blend to this image alone.
