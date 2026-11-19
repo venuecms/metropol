@@ -60,6 +60,7 @@ export const EventsGrid = ({
           withImage
           imageClassName="sm:w-full"
           imageAspect={imageAspect}
+          imageCredit={false}
         />
       </div>
     ))}
@@ -75,6 +76,7 @@ export const ListEvent = ({
   className,
   imageClassName,
   imageAspect = "video",
+  imageCredit = true,
 }: {
   event: Event;
   site: Site;
@@ -86,6 +88,8 @@ export const ListEvent = ({
   imageClassName?: string;
   /** The image's ratio; 16:9 unless given. */
   imageAspect?: VenueImageAspect;
+  /** Whether the image shows its photo credit; the grid turns it off. */
+  imageCredit?: boolean;
 }) => {
   const locale = useLocale();
   const t = useTranslations("events");
@@ -104,7 +108,12 @@ export const ListEvent = ({
           className={cn("w-full pb-3 sm:w-80 sm:max-w-full", imageClassName)}
         >
           <Link href={`/events/${event.slug}`}>
-            <VenueImage image={displayImage} aspect={imageAspect} filter />
+            <VenueImage
+              image={displayImage}
+              aspect={imageAspect}
+              filter
+              withCredit={imageCredit}
+            />
           </Link>
         </div>
       ) : null}
