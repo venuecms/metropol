@@ -31,8 +31,7 @@ import { useTranslations } from "next-intl";
 import { EventsGrid, EventsList, ListEvent } from "@/components/EventList";
 import { ListProduct } from "@/components/ListProduct";
 import { ListPage, PagesList } from "@/components/PageList";
-import { ProfileCompact } from "@/components/ProfileCompact";
-import { TwoSubColumnLayout } from "@/components/layout";
+import { ProfilesGrid } from "@/components/ProfilesGrid";
 import {
   resolveNewsArticleHref,
   resolvePageHref,
@@ -204,11 +203,8 @@ export const ProfileListingBlock = ({
       records={records}
       label={t("profiles")}
     >
-      <TwoSubColumnLayout className="py-4">
-        {records.map((profile) => (
-          <ProfileCompact key={profile.slug} profile={profile} inListing />
-        ))}
-      </TwoSubColumnLayout>
+      {/* The artists page's grid, so a listing in content looks the same. */}
+      <ProfilesGrid profiles={records} className="py-4" />
     </PaginatedListing>
   );
 };

@@ -13,28 +13,16 @@ import { type ReactNode, Suspense } from "react";
 import { Link } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
-import { contentComponents, contentHandlers } from "@/components/ListingBlock";
+import {
+  contentHandlers,
+  detailBodyComponents,
+} from "@/components/ListingBlock";
+import { ProfilesGrid } from "@/components/ProfilesGrid";
 import { VenueImage } from "@/components/VenueImage";
 
 import { TicketList } from "../TicketList";
 import { formatDate, formatDateRange, formatTime } from "../utils";
-import { proseHandlers } from "../utils/handlers";
-import { renderedStyles } from "../utils/styles";
 import { WhileUpcoming } from "./WhileUpcoming";
-
-/**
- * The body's content styles a step down, at text-xs: the shared styles set
- * text-sm on each paragraph, heading and link, so the size has to change there
- * rather than on the wrapper. Listing blocks pass through untouched.
- */
-const descriptionStyles = Object.fromEntries(
-  Object.entries(contentComponents).map(([node, entry]) => [
-    node,
-    typeof entry === "string"
-      ? entry.replace(/\btext-sm\b/g, "text-xs")
-      : entry,
-  ]),
-) as typeof contentComponents;
 
 /**
  * A single event's page:
@@ -42,8 +30,8 @@ const descriptionStyles = Object.fromEntries(
  *   title
  *   date   get tickets
  *   body         | image
- *                | location · times · artists
- *   artist cards, three across
+ *                | location · times
+ *   artist cards with bios, three across
  *
  * On a phone it reads top to bottom with the image ahead of the body, so the
  * picture and the practical details come before the long read.
@@ -79,122 +67,104 @@ export const Event = ({
 
   return (
     <article className="flex flex-col gap-12 pb-6 pt-6 lg:gap-16 lg:pb-24">
-      {/* Title and date read as one heading, closer together than the
-          sections below. */}
-      <header className="flex flex-col gap-4 motion-safe:animate-slide-up">
-        <h1
-          className={cn(
-            "text-balance text-xl text-primary",
-            isCancelled && "line-through",
-          )}
-        >
-          {content.title}
-        </h1>
+      {/* Title and date row sit a little closer than the date row and the
+          content; the artists below sit further off, as a section of their
+          own. */}
+      <div className="flex flex-col gap-10 lg:gap-14">
+        <header className="flex flex-col gap-6 motion-safe:animate-slide-up lg:gap-10">
+          <h1
+            className={cn(
+              "text-balance text-xl text-primary",
+              isCancelled && "line-through",
+            )}
+          >
+            {content.title}
+          </h1>
 
-        <div className="flex flex-wrap items-center gap-x-12 gap-y-4 text-sm">
-          <span className={cn("text-primary", isCancelled && "line-through")}>
-            {formatDateRange({
-              start: event.startDate,
-              end: event.endDate,
-              withTime: false,
-              template: "EEEE d MMMM",
-              timeZone: site.timeZone!,
-              locale,
-            })}
-            {/* The start time, set off the way the listings set it, and kept
+          <div className="flex flex-wrap items-center gap-x-12 gap-y-4 text-sm">
+            <span className={cn("text-primary", isCancelled && "line-through")}>
+              {formatDateRange({
+                start: event.startDate,
+                end: event.endDate,
+                withTime: false,
+                template: "EEEE d MMMM",
+                timeZone: site.timeZone!,
+                locale,
+              })}
+              {/* The start time, set off the way the listings set it, and kept
                 apart from the date so a multi-day range still gets one. */}
-            {event.hasTime
-              ? ` • ${formatTime({ date: event.startDate, timeZone, locale })}`
-              : null}
-          </span>
-          {isCancelled ? (
-            <span className="text-secondary">{t("cancelled")}</span>
-          ) : event.tickets?.length ? (
-            // Hidden once the event is over: there is nothing left to buy.
-            <Suspense fallback={null}>
-              <WhileUpcoming event={event}>
-                <Tickets tickets={event.tickets} />
-              </WhileUpcoming>
-            </Suspense>
-          ) : null}
-        </div>
-      </header>
-
-      <div className="grid gap-12 lg:grid-cols-3">
-        <div
-          className="flex flex-col gap-4 motion-safe:animate-slide-up lg:order-2 lg:col-span-2"
-          style={stagger(1)}
-        >
-          {displayImage ? (
-            // Full width of its column at the image's own proportions. `sizes`
-            // tells Next how wide that is, so it serves a source to match
-            // rather than the stored width, stretched.
-            <VenueImage
-              image={displayImage}
-              className="h-auto w-full"
-              props={{ sizes: "(min-width: 1024px) 66vw, 100vw" }}
-            />
-          ) : null}
-          <div className="grid gap-8 text-xs sm:grid-cols-3">
-            {location ? (
-              <Detail>
-                <EventLocation location={location} />
-              </Detail>
-            ) : null}
-            {event.hasTime ? (
-              <Detail>
-                <EventTimes
-                  start={event.startDate}
-                  end={event.endDate}
-                  timeZone={timeZone}
-                />
-              </Detail>
-            ) : null}
-            {artists.length ? (
-              <Detail>
-                <ul>
-                  {artists.map(({ profile }) => (
-                    <li key={profile.slug}>
-                      <Link
-                        href={`/artists/${profile.slug}`}
-                        className="hover:brightness-150"
-                      >
-                        {
-                          getLocalizedContent(profile.localizedContent, locale)
-                            .content.title
-                        }
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </Detail>
+              {event.hasTime
+                ? ` • ${formatTime({ date: event.startDate, timeZone, locale })}`
+                : null}
+            </span>
+            {isCancelled ? (
+              <span className="text-secondary">{t("cancelled")}</span>
+            ) : event.tickets?.length ? (
+              // Hidden once the event is over: there is nothing left to buy.
+              <Suspense fallback={null}>
+                <WhileUpcoming event={event}>
+                  <Tickets tickets={event.tickets} />
+                </WhileUpcoming>
+              </Suspense>
             ) : null}
           </div>
-        </div>
+        </header>
 
-        <VenueContent
-          // The opening paragraph a step up, as a lead-in to the rest. Its
-          // selector outranks the text-xs each paragraph carries.
-          className="flex flex-col gap-6 text-xs [animation-delay:160ms] motion-safe:animate-slide-up lg:order-1 [&>p:first-of-type]:text-sm"
-          content={content}
-          contentStyles={descriptionStyles}
-          components={contentHandlers}
-          searchParams={searchParams}
-        />
+        <div className="grid gap-12 lg:grid-cols-3">
+          <div
+            className="flex flex-col gap-4 motion-safe:animate-slide-up lg:order-2 lg:col-span-2"
+            style={stagger(1)}
+          >
+            {displayImage ? (
+              // Full width of its column at the image's own proportions. `sizes`
+              // tells Next how wide that is, so it serves a source to match
+              // rather than the stored width, stretched.
+              <VenueImage
+                image={displayImage}
+                className="h-auto w-full"
+                props={{ sizes: "(min-width: 1024px) 66vw, 100vw" }}
+              />
+            ) : null}
+            <div className="grid gap-8 text-xs sm:grid-cols-3">
+              {location ? (
+                <Detail>
+                  <EventLocation location={location} />
+                </Detail>
+              ) : null}
+              {event.hasTime ? (
+                <Detail>
+                  <EventTimes
+                    start={event.startDate}
+                    end={event.endDate}
+                    timeZone={timeZone}
+                  />
+                </Detail>
+              ) : null}
+            </div>
+          </div>
+
+          <VenueContent
+            // The opening paragraph a step up, as a lead-in to the rest. Its
+            // selector outranks the text-xs each paragraph carries.
+            className="flex flex-col gap-6 text-xs [animation-delay:160ms] motion-safe:animate-slide-up lg:order-1 [&>p:first-of-type]:text-sm"
+            content={content}
+            contentStyles={detailBodyComponents}
+            components={contentHandlers}
+            searchParams={searchParams}
+          />
+        </div>
       </div>
 
       {artists.length ? (
-        <div className="grid gap-12 pt-6 sm:grid-cols-2 lg:grid-cols-3">
-          {artists.map(({ profile }, index) => (
-            <div
-              key={profile.slug}
-              className="motion-safe:animate-slide-up"
-              style={stagger(3 + index)}
-            >
-              <ArtistCard profile={profile} />
-            </div>
-          ))}
-        </div>
+        // The artists page's grid, so an artist looks the same wherever
+        // they are listed.
+        <ProfilesGrid
+          profiles={artists.map(({ profile }) => profile)}
+          columns={3}
+          withBio
+          imageAspect="video"
+          className="pt-6"
+        />
       ) : null}
     </article>
   );
@@ -327,43 +297,6 @@ const Tickets = ({ tickets }: { tickets: TicketOnEvent[] }) => {
           </Link>
         ))
       )}
-    </div>
-  );
-};
-
-/**
- * An artist on the event: image, with the name set over its bottom edge as a
- * link to their page, then the bio. One of a list of artists, so its image
- * takes the site's listing filter.
- */
-const ArtistCard = ({
-  profile,
-}: {
-  profile: VenueEvent["artists"][number]["profile"];
-}) => {
-  const locale = useLocale();
-  const { content } = getLocalizedContent(profile.localizedContent, locale);
-  const href = `/artists/${profile.slug}`;
-
-  return (
-    <div className="flex flex-col gap-6">
-      <div className="relative">
-        <Link href={href}>
-          <VenueImage image={profile.image} aspect="square" filter />
-        </Link>
-        <Link
-          href={href}
-          className="absolute bottom-0 left-0 translate-y-1/2 px-3 text-md leading-none text-primary hover:brightness-150"
-        >
-          {content.title}
-        </Link>
-      </div>
-      <VenueContent
-        className="flex flex-col gap-6 pt-4 text-sm"
-        content={content}
-        contentStyles={renderedStyles}
-        components={proseHandlers}
-      />
     </div>
   );
 };

@@ -49,6 +49,22 @@ export const contentComponents: ContentEntries & AllListingComponents = {
 };
 
 /**
+ * `contentComponents` a step down, at text-xs, for the body of a record's own
+ * page — an event's description, an artist's bio — set beside a large image.
+ * The shared styles set text-sm on each paragraph, heading and link, so the
+ * size has to change there rather than on the wrapper. Listing blocks pass
+ * through untouched.
+ */
+export const detailBodyComponents = Object.fromEntries(
+  Object.entries(contentComponents).map(([node, entry]) => [
+    node,
+    typeof entry === "string"
+      ? entry.replace(/\btext-sm\b/g, "text-xs")
+      : entry,
+  ]),
+) as typeof contentComponents;
+
+/**
  * `contentComponents` for the body of a page typed as an event listing: its
  * event listing blocks draw the homepage's grid instead of the plain list.
  */
