@@ -1,23 +1,13 @@
 import { getSite } from "@venuecms/sdk-next";
 import { ThemeProvider } from "next-themes";
 import {
-  Abel,
-  Courier_Prime,
   EB_Garamond,
-  Gothic_A1,
   Hanken_Grotesk,
   IBM_Plex_Mono,
   Inter,
   Jost,
-  Karla,
-  Kosugi_Maru,
   Open_Sans,
-  Oswald,
-  Outfit,
   Schibsted_Grotesk,
-  Special_Elite,
-  Work_Sans,
-  Young_Serif,
 } from "next/font/google";
 import { ReactNode } from "react";
 
@@ -26,43 +16,7 @@ import { FILTERABLE_IMAGE_CLASS } from "@/components/VenueImage";
 import { buildThemeColorOverrideCss } from "./colors";
 import { buildTextCaseCss } from "./textCase";
 
-const WorkSans = Work_Sans({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  display: "swap",
-});
-
-const oswald = Oswald({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  display: "swap",
-});
-
-const courierPrime = Courier_Prime({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  display: "swap",
-});
-
-const KosugiMaru = Kosugi_Maru({
-  subsets: ["latin"],
-  weight: ["400"],
-  display: "swap",
-});
-
-const SpecialElite = Special_Elite({
-  subsets: ["latin"],
-  weight: ["400"],
-  display: "swap",
-});
-
 const inter = Inter({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  display: "swap",
-});
-
-const karla = Karla({
   subsets: ["latin"],
   weight: ["400", "700"],
   display: "swap",
@@ -74,18 +28,6 @@ const ebGaramond = EB_Garamond({
   display: "swap",
 });
 
-const abel = Abel({
-  subsets: ["latin"],
-  weight: ["400"],
-  display: "swap",
-});
-
-const outfit = Outfit({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  display: "swap",
-});
-
 const SchibstedGrotesk = Schibsted_Grotesk({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -94,19 +36,7 @@ const SchibstedGrotesk = Schibsted_Grotesk({
 
 const HankenGrotesk = Hanken_Grotesk({
   subsets: ["latin"],
-  weight: ["600", "800"],
-  display: "swap",
-});
-
-const YoungSerif = Young_Serif({
-  subsets: ["latin"],
-  weight: ["400"],
-  display: "swap",
-});
-
-const GothicA1 = Gothic_A1({
-  subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400", "700"],
   display: "swap",
 });
 
@@ -128,20 +58,10 @@ const OpenSans = Open_Sans({
 });
 
 const ThemeFonts = {
-  Work_Sans: WorkSans.style,
-  oswald: oswald.style,
-  Courier: courierPrime.style,
-  Kosugi_Maru: KosugiMaru.style,
-  Special_Elite: SpecialElite.style,
   Inter: inter.style,
-  Karla: karla.style,
   EB_Garamond: ebGaramond.style,
-  abel: abel.style,
-  outfit: outfit.style,
   Schibsted_Grotesk: SchibstedGrotesk.style,
   Hanken_Grotesk: HankenGrotesk.style,
-  Young_Serif: YoungSerif.style,
-  Gothic_A1: GothicA1.style,
   jost: jost.style,
   IBM_Plex_Mono: IBMPlexMono.style,
   Open_Sans: OpenSans.style,
