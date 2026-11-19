@@ -8,7 +8,7 @@ import {
   getLocalizedContent,
 } from "@venuecms/sdk-next";
 import { useLocale, useTranslations } from "next-intl";
-import type { ReactNode } from "react";
+import { type ReactNode, Suspense } from "react";
 
 import { Link } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
@@ -20,6 +20,7 @@ import { TicketList } from "../TicketList";
 import { formatDate, formatDateRange, formatTime } from "../utils";
 import { proseHandlers } from "../utils/handlers";
 import { renderedStyles } from "../utils/styles";
+import { WhileUpcoming } from "./WhileUpcoming";
 
 /**
  * The body's content styles a step down, at text-xs: the shared styles set
@@ -109,7 +110,12 @@ export const Event = ({
           {isCancelled ? (
             <span className="text-secondary">{t("cancelled")}</span>
           ) : event.tickets?.length ? (
-            <Tickets tickets={event.tickets} />
+            // Hidden once the event is over: there is nothing left to buy.
+            <Suspense fallback={null}>
+              <WhileUpcoming event={event}>
+                <Tickets tickets={event.tickets} />
+              </WhileUpcoming>
+            </Suspense>
           ) : null}
         </div>
       </header>
