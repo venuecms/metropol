@@ -15,23 +15,13 @@ vi.mock("next/font/google", () => {
 
   return Object.fromEntries(
     [
-      "Abel",
-      "Courier_Prime",
       "EB_Garamond",
-      "Gothic_A1",
       "Hanken_Grotesk",
       "IBM_Plex_Mono",
       "Inter",
       "Jost",
-      "Karla",
-      "Kosugi_Maru",
       "Open_Sans",
-      "Oswald",
-      "Outfit",
       "Schibsted_Grotesk",
-      "Special_Elite",
-      "Work_Sans",
-      "Young_Serif",
     ].map((name) => [name, font]),
   );
 });
